@@ -100,34 +100,10 @@ def load_annotations(file_path):
 
 gt_file_path = "dataset/merged_annotations/val.json"
 pred_file_path = "det_faster_rcnn_fine_tune_faster_2.json"
-'''
-# Mean Average Precision (mAP) at IoU threshold 0.5: 0.02596119295724039
-Mean Average Precision (mAP) at IoU threshold 0.75: 0.013384836507366151
-'''
-
-
-# pred_file_path ='det_faster_rcnn_fine_tune_faster_0.json'
-'''
-Mean Average Precision (mAP) at IoU threshold 0.5: 0.02750712927756654
-Mean Average Precision (mAP) at IoU threshold 0.75: 0.013486216730038024
-'''
-
-# pred_file_path = "det_faster_rcnn_fine_tune_faster_1.json"
-'''
-Mean Average Precision (mAP) at IoU threshold 0.5: 0.01488095238095238
-Mean Average Precision (mAP) at IoU threshold 0.75: 0.0005175983436853002
-'''
-
-# pred_file_path = "det_faster_rcnn_fine_tune_faster_2.json"
-'''
-Mean Average Precision (mAP) at IoU threshold 0.5: 0.016689607708189953
-Mean Average Precision (mAP) at IoU threshold 0.75: 0.004793039032543506
-'''
 ground_truths = load_annotations(gt_file_path)['annotations']
 predictions = load_annotations(pred_file_path)
 
-# Evaluate mAP
-iou_threshold = 0.75
+iou_threshold = 0.5
 mAP = evaluate_map(predictions, ground_truths, iou_threshold)
 
 print(f"Mean Average Precision (mAP) at IoU threshold {iou_threshold}: {mAP}")
