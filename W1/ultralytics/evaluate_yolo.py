@@ -8,8 +8,8 @@ from sklearn.metrics import average_precision_score
 KITTI_CLASSES = {"Car": 2, "Pedestrian": 1}
 
 # Paths
-GT_BBOXES_DIR = "gt_bboxes"  # Directory with ground truth bounding boxes
-PREDICTIONS_DIR = "output_yolov8_kitti_mots_txt"  # Directory with YOLO predictions
+GT_BBOXES_DIR = "gt_bboxes"
+PREDICTIONS_DIR = "output_yolov8_kitti_mots_txt"  
 
 def load_gt_bboxes(gt_file):
     """Load ground truth bounding boxes from the new YOLO-like format."""
@@ -21,13 +21,13 @@ def load_gt_bboxes(gt_file):
             if len(parts) < 7:
                 continue  # Skip malformed lines
 
-            image_name = parts[0]  # e.g., "000000.png"
-            class_name = parts[1]  # "Car" or "Pedestrian"
+            image_name = parts[0]  
+            class_name = parts[1] 
             confidence = float(parts[2])  # Always 1.00 in GT (not used)
-            bbox = list(map(int, parts[3:]))  # x_min, y_min, x_max, y_max
+            bbox = list(map(int, parts[3:])) 
 
-            frame_id = int(image_name.split(".")[0])  # Extract frame number
-            class_id = KITTI_CLASSES.get(class_name, -1)  # Convert class name to ID
+            frame_id = int(image_name.split(".")[0]) 
+            class_id = KITTI_CLASSES.get(class_name, -1)  
 
             if class_id != -1:
                 gt_bboxes[frame_id].append((class_id, bbox))
@@ -41,13 +41,13 @@ def load_predictions(pred_file):
     with open(pred_file, "r") as f:
         for line in f:
             parts = line.strip().split()
-            image_name = parts[0]  # e.g., 000000.png
+            image_name = parts[0] 
             class_name = parts[1]
             confidence = float(parts[2])
-            bbox = list(map(int, parts[3:]))  # x_min, y_min, x_max, y_max
+            bbox = list(map(int, parts[3:])) 
 
-            frame_id = int(image_name.split(".")[0])  # Extract frame number
-            class_id = KITTI_CLASSES.get(class_name, -1)  # Convert to KITTI class ID
+            frame_id = int(image_name.split(".")[0])  
+            class_id = KITTI_CLASSES.get(class_name, -1)  
             
             if class_id != -1:
                 pred_bboxes[frame_id].append((class_id, confidence, bbox))
@@ -78,15 +78,15 @@ def compute_ap(gt_bboxes, pred_bboxes, iou_threshold=0.5):
     y_true = []
     y_scores = []
 
-    for frame_id in sorted(set(gt_bboxes.keys()).union(set(pred_bboxes.keys()))):  # Ensure all frames are considered
-        gt_boxes = gt_bboxes.get(frame_id, [])  # Ground truth for this frame
-        pred_boxes = pred_bboxes.get(frame_id, [])  # Predictions for this frame
+    for frame_id in sorted(set(gt_bboxes.keys()).union(set(pred_bboxes.keys()))):  
+        gt_boxes = gt_bboxes.get(frame_id, [])
+        pred_boxes = pred_bboxes.get(frame_id, []) 
 
         matched_gt = set()
         frame_y_true = []
         frame_y_scores = []
 
-        for class_id, conf, pred_box in sorted(pred_boxes, key=lambda x: -x[1]):  # Sort by confidence
+        for class_id, conf, pred_box in sorted(pred_boxes, key=lambda x: -x[1]):  
             best_iou = 0
             best_gt_idx = -1
 
@@ -98,17 +98,16 @@ def compute_ap(gt_bboxes, pred_bboxes, iou_threshold=0.5):
                         best_gt_idx = i
 
             if best_iou >= iou_threshold and best_gt_idx != -1:
-                frame_y_true.append(1)  # True positive
+                frame_y_true.append(1) 
                 matched_gt.add(best_gt_idx)
             else:
-                frame_y_true.append(0)  # False positive
+                frame_y_true.append(0) 
 
             frame_y_scores.append(conf)
 
-        # Unmatched GT boxes → False negatives
         num_false_negatives = len(gt_boxes) - len(matched_gt)
-        frame_y_true.extend([1] * num_false_negatives)  # FN
-        frame_y_scores.extend([0] * num_false_negatives)  # Assign confidence 0 for FN
+        frame_y_true.extend([1] * num_false_negatives) 
+        frame_y_scores.extend([0] * num_false_negatives)  
 
         y_true.extend(frame_y_true)
         y_scores.extend(frame_y_scores)
@@ -117,8 +116,6 @@ def compute_ap(gt_bboxes, pred_bboxes, iou_threshold=0.5):
         return 0  # No detections, return AP = 0
 
     return average_precision_score(y_true, y_scores)
-
-
 
 def evaluate_map():
     """Evaluate mAP across all sequences."""
