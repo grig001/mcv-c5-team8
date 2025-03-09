@@ -4,12 +4,13 @@ import glob
 from collections import defaultdict
 from sklearn.metrics import average_precision_score
 
-# Class Mapping
-KITTI_CLASSES = {"Car": 2, "Pedestrian": 1}
+# This script takes the predictions from a pretrained model and evaluates them.
 
-# Paths
-GT_BBOXES_DIR = "gt_bboxes"
-PREDICTIONS_DIR = "output_yolov8_kitti_mots_txt"  
+#class mapping
+KITTI_CLASSES = {"Car": 1, "Pedestrian": 2}
+
+GT_BBOXES_DIR = "gt_bboxes"  #dir with gt
+PREDICTIONS_DIR = "output_yolov8_kitti_mots_txt"  #dir with predictions
 
 def load_gt_bboxes(gt_file):
     """Load ground truth bounding boxes from the new YOLO-like format."""
@@ -19,16 +20,16 @@ def load_gt_bboxes(gt_file):
         for line in f:
             parts = line.strip().split()
             if len(parts) < 7:
-                continue  # Skip malformed lines
+                continue
 
             image_name = parts[0]  
-            class_name = parts[1] 
-            confidence = float(parts[2])  # Always 1.00 in GT (not used)
-            bbox = list(map(int, parts[3:])) 
+            class_name = parts[1]  
+            confidence = float(parts[2])  #always 1.00 in gt
+            bbox = list(map(int, parts[3:]))
 
-            frame_id = int(image_name.split(".")[0]) 
-            class_id = KITTI_CLASSES.get(class_name, -1)  
-
+            frame_id = int(image_name.split(".")[0])
+            class_id = KITTI_CLASSES.get(class_name, -1) 
+        
             if class_id != -1:
                 gt_bboxes[frame_id].append((class_id, bbox))
 
@@ -41,13 +42,13 @@ def load_predictions(pred_file):
     with open(pred_file, "r") as f:
         for line in f:
             parts = line.strip().split()
-            image_name = parts[0] 
+            image_name = parts[0]  
             class_name = parts[1]
             confidence = float(parts[2])
-            bbox = list(map(int, parts[3:])) 
+            bbox = list(map(int, parts[3:]))  
 
             frame_id = int(image_name.split(".")[0])  
-            class_id = KITTI_CLASSES.get(class_name, -1)  
+            class_id = KITTI_CLASSES.get(class_name, -1) 
             
             if class_id != -1:
                 pred_bboxes[frame_id].append((class_id, confidence, bbox))
@@ -59,14 +60,12 @@ def iou(box1, box2):
     x1, y1, x2, y2 = box1
     x1g, y1g, x2g, y2g = box2
 
-    # Compute intersection
     xi1 = max(x1, x1g)
     yi1 = max(y1, y1g)
     xi2 = min(x2, x2g)
     yi2 = min(y2, y2g)
     inter_area = max(0, xi2 - xi1) * max(0, yi2 - yi1)
 
-    # Compute union
     box1_area = (x2 - x1) * (y2 - y1)
     box2_area = (x2g - x1g) * (y2g - y1g)
     union_area = box1_area + box2_area - inter_area
@@ -78,15 +77,15 @@ def compute_ap(gt_bboxes, pred_bboxes, iou_threshold=0.5):
     y_true = []
     y_scores = []
 
-    for frame_id in sorted(set(gt_bboxes.keys()).union(set(pred_bboxes.keys()))):  
-        gt_boxes = gt_bboxes.get(frame_id, [])
-        pred_boxes = pred_bboxes.get(frame_id, []) 
+    for frame_id in sorted(set(gt_bboxes.keys()).union(set(pred_bboxes.keys()))):
+        gt_boxes = gt_bboxes.get(frame_id, [])  
+        pred_boxes = pred_bboxes.get(frame_id, [])  
 
         matched_gt = set()
         frame_y_true = []
         frame_y_scores = []
 
-        for class_id, conf, pred_box in sorted(pred_boxes, key=lambda x: -x[1]):  
+        for class_id, conf, pred_box in sorted(pred_boxes, key=lambda x: -x[1]):
             best_iou = 0
             best_gt_idx = -1
 
@@ -98,22 +97,23 @@ def compute_ap(gt_bboxes, pred_bboxes, iou_threshold=0.5):
                         best_gt_idx = i
 
             if best_iou >= iou_threshold and best_gt_idx != -1:
-                frame_y_true.append(1) 
+                frame_y_true.append(1)  
                 matched_gt.add(best_gt_idx)
             else:
-                frame_y_true.append(0) 
+                frame_y_true.append(0)  
 
             frame_y_scores.append(conf)
 
+        
         num_false_negatives = len(gt_boxes) - len(matched_gt)
-        frame_y_true.extend([1] * num_false_negatives) 
+        frame_y_true.extend([1] * num_false_negatives)  
         frame_y_scores.extend([0] * num_false_negatives)  
 
         y_true.extend(frame_y_true)
         y_scores.extend(frame_y_scores)
 
     if not y_true or not y_scores:
-        return 0  # No detections, return AP = 0
+        return 0
 
     return average_precision_score(y_true, y_scores)
 
@@ -143,7 +143,6 @@ def evaluate_map():
 
             print(f"AP for {class_name}: {ap:.3f}")
 
-    # Compute mAP
     map_per_class = {cls: np.mean(aps) for cls, aps in ap_per_class.items()}
     map_score = np.mean(list(map_per_class.values()))
 
@@ -152,5 +151,5 @@ def evaluate_map():
         print(f"{cls} AP: {ap:.3f}")
     print(f"\nMean Average Precision (mAP): {map_score:.3f}")
 
-# Run evaluation
+#main
 evaluate_map()
