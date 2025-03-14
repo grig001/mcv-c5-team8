@@ -1,6 +1,6 @@
 # mcv-c5-team8
 
-Repository of Team 8 for the project of the C5 course.
+Repository for Team 8's projects in the C5 course.  
 
 ## Week 1
 
