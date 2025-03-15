@@ -1,4 +1,4 @@
-# mcv-c5-team8
+# C5 Project: Multimodal Recognition - Team 8
 
 Repository for Team 8's projects in the C5 course.  
 
