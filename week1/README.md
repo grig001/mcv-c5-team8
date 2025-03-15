@@ -1,4 +1,4 @@
-# Week 1 Object detection
+# Week 1 - Object detection
 
 ## Tasks Breakdown
 
