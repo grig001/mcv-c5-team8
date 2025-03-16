@@ -6,7 +6,7 @@
 python retrieve_bbox_gt.py
 ```
 
-### Convert masks to COCO format
+### Convert to COCO format
 ```bash
 python convert_masks.py
 ```
@@ -18,7 +18,7 @@ python merge.py
 
 ### Run segmentation detection
 ```bash
-python mask_detection.py --model [pre-trained/fine-tuned]
+python mask_detection.py
 ```
 
 ## Dependencies
