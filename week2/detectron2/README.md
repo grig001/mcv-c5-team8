@@ -55,3 +55,5 @@ Ensure you have the following dependencies installed:
 - NumPy
 - OpenCV
 - Detectron2
+- pycocotools
+- json
