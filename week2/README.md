@@ -26,6 +26,13 @@ Create conda envirement with team8_env.yaml:
 conda env create -f team8_env.yaml
 ```
 
+Activate your conda envirement:
+
+```bash
+conda activate team8_env
+```
+
+
 If detectron2 was not installed automatically, install it with pip:
 
 ```bash
@@ -33,5 +40,12 @@ pip install detectron2 -f https://dl.fbaipublicfiles.com/detectron2/wheels/cu121
 ```
 
 ## Usage
+
+# detectron2 - Mask R-CNN
+
+# huggingface - mask2former
+
+# ultralytics - yolov8n-seg
+
 
 ## Tasks Breakdown
