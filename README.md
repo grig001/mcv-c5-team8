@@ -10,4 +10,4 @@ The Slides for Week 1 can be found [here]().
 ## Week 2
 
 The README for Week 2 can be found [here](./week2/README.md).  
-The Slides for Week 2 can be found [here]().
+The Slides for Week 2 can be found [here](https://docs.google.com/presentation/d/1etahJ3YuBjsGzXGbmmyZ7ifsmGFF8GMM-0VSV1iVXjw/edit?usp=sharing).
