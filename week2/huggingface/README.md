@@ -41,6 +41,17 @@ python evaluate_coco_files.py --eval datasets/eval_gt.json --predictions predict
 
 This script compares a set of predicted segmentation results against ground truth annotations using the COCO evaluation framework.
 
+### Running jobs via SLURM
+Instead of running the scripts directly, you can submit them as SLURM jobs by adjusting the `job_mask2former` file, making it executable, and submitting it:
+
+```bash
+chmod +x job_mask2former
+sbatch job_mask2former
+```
+
+This allows execution on a compute cluster using SLURM job scheduling.
+
+
 ## Dependencies
 Ensure you have the following dependencies installed:
 - Python 3.x
