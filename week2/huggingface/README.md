@@ -24,6 +24,8 @@ huggingface/
 ```bash
 python inference_pretrained.py
 ```
+This function uses datasets that are directly linked to the first created KITTI-MOTS split folder.
+
 
 ### Fine-tune the Mask2Former model on the KITTI-MOTS dataset
 ```bash
