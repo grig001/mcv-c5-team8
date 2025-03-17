@@ -98,7 +98,7 @@ python -c "import albumentations, datasets, transformers; print('Mask2Former dep
 
 Preprocess the data for ultralytics and huggingface: 
 ```bash
-python
+python data_preprocessing/make_train_val_split.py
 ```
 
 ### detectron2 - Mask R-CNN
