@@ -3,9 +3,48 @@
 ## Folder Structure
 
 ```bash
-Week2/
-
-│-- README.md
+week2/
+├── data_preprocessing
+│   └── make_train_val_split.py
+├── detectron2
+│   ├── README.md
+│   └── scripts
+│       ├── convert_masks.py
+│       ├── fine_tune.py
+│       ├── mask_detection.py
+│       ├── merge.py
+│       └── retrieve_bbox_gt.py
+├── domain_shift
+│   ├── convert_file_domain_shift.py
+│   └── fine-tune_domain_shift.py
+├── huggingface
+│   ├── datasets
+│   │   ├── eval_gt.json
+│   │   ├── train_gt_all.json
+│   │   ├── train_gt.json
+│   │   └── val_gt.json
+│   ├── evaluate_coco_files.py
+│   ├── fine_tune.py
+│   ├── inference_pretrained.py
+│   ├── job_mask2former
+│   ├── job_output
+│   │   └── job_example
+│   └── predictions
+│       └── predictions_pretrained.json
+├── README.md
+└── ultralytics
+    ├── datasets
+    │   ├── yolo_fine_tune.yaml
+    │   └── yolo_pretrained.yaml
+    ├── evaluate_fine_tuned.py
+    ├── fine_tune_augm.py
+    ├── fine_tune_optuna.py
+    ├── fine_tune.py
+    ├── inference_pretrained.py
+    ├── job_output
+    │   └── job_example
+    ├── job_yolo
+    └── prepare_yolo_data.py
 ```
 
 
@@ -102,10 +141,10 @@ python data_preprocessing/make_train_val_split.py
 ```
 
 ### detectron2 - Mask R-CNN
+The README for detectron2 can be found [here](./detectron2/README.md).  
 
 ### huggingface - mask2former
+The README for detectron2 can be found [here](./huggingface/README.md).  
 
 ### ultralytics - yolov8n-seg
-
-
-## Tasks Breakdown
+The README for detectron2 can be found [here](./ultralytics/README.md).  
