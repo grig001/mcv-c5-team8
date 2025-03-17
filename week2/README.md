@@ -32,8 +32,7 @@ Activate your conda envirement:
 conda activate team8_env
 ```
 
-
-If detectron2 was not installed automatically, install it with pip:
+Install detectron2 with pip:
 
 ```bash
 pip install detectron2 -f https://dl.fbaipublicfiles.com/detectron2/wheels/cu121/torch2.5/index.html
@@ -41,11 +40,16 @@ pip install detectron2 -f https://dl.fbaipublicfiles.com/detectron2/wheels/cu121
 
 ## Usage
 
-# detectron2 - Mask R-CNN
+Preprocess the data for ultralytics and huggingface: 
+```bash
+python
+```
 
-# huggingface - mask2former
+### detectron2 - Mask R-CNN
 
-# ultralytics - yolov8n-seg
+### huggingface - mask2former
+
+### ultralytics - yolov8n-seg
 
 
 ## Tasks Breakdown
