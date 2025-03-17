@@ -18,3 +18,31 @@ huggingface/
 └── README.md
 ```
 
+## Usage
+
+### Run inference on a pretrained model and generate evaluation metrics
+```bash
+python inference_pretrained.py
+```
+
+### Fine-tune the Mask2Former model on the KITTI-MOTS dataset
+```bash
+python fine_tune.py
+```
+
+This function uses datasets that are directly linked to the first created KITTI-MOTS split folder.
+
+### Evaluate predictions using COCO evaluation
+```bash
+python evaluate_coco_files.py --eval datasets/eval_gt.json --predictions predictions/predictions_pretrained.json
+```
+
+This script compares a set of predicted segmentation results against ground truth annotations using the COCO evaluation framework.
+
+## Dependencies
+Ensure you have the following dependencies installed:
+- Python 3.x
+- NumPy
+- OpenCV
+- pycocotools
+- json
