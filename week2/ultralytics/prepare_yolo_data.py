@@ -143,8 +143,8 @@ def main(mode):
 
     # Define class mapping
     class_mapping = {
-        "pretrain": {1: 1, 2: 0},
-        "finetune": {1: 1, 2: 0},
+        "pretrain": {1: 2, 2: 0},
+        "finetune": {1: 0, 2: 1},
     }
 
     # Dataset paths
