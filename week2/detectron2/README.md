@@ -12,16 +12,6 @@ detectron2/
 ```
 
 
-## Installation Steps
-1. Clone the repository:
-```bash
-https://github.com/grig001/mcv-c5-team8.git
-```
-2. Navigate to the corresponding folder:
-```bash
-cd week2/detectron2
-```
-
 ## Usage
 
 Extract ground truth bounding boxes and masks
