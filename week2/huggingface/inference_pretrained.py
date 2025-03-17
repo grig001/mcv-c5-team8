@@ -17,7 +17,7 @@ model = Mask2FormerForUniversalSegmentation.from_pretrained(model_name).to(devic
 model.eval()
 
 # Load evaluation dataset
-eval_json_path = "eval_gt.json"
+eval_json_path = "datasets/eval_gt.json"
 with open(eval_json_path, "r") as f:
     eval_data = json.load(f)
 
@@ -76,7 +76,7 @@ for img_meta in tqdm(image_list, desc="Processing images"):
         })
 
 # Save predictions to JSON
-predictions_json_path = "predictions/predictions_pre_trained.json"
+predictions_json_path = "predictions/predictions_pretrained.json"
 with open(predictions_json_path, "w") as f:
     json.dump(coco_predictions, f, indent=4)
 
