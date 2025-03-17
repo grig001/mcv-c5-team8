@@ -57,9 +57,9 @@ pip install ultralytics
 ```
 
 #### Detectron2 Dependencies
-Install Detectron2 with CUDA 12.1 support.
+
 ```bash
-pip install detectron2 -f https://dl.fbaipublicfiles.com/detectron2/wheels/cu121/torch2.5/index.html
+python -m pip install 'git+https://github.com/facebookresearch/detectron2.git'
 ```
 
 ### 5. Check Dependencies
