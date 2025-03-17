@@ -4,6 +4,7 @@ train: train/images
 val: val/images
 test: eval/images
 
-names:
-  0: car
-  1: pedestrian
+names: 
+  0: pedestrian
+  1: bicycle
+  2: car
