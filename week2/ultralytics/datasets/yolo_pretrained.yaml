@@ -1,10 +1,7 @@
 path: /ghome/c5mcv08/team8_split_KITTI-MOTS_YOLO/
-
 train: train/images
 val: val/images
 test: eval/images
-
 names: 
-  0: pedestrian
-  1: bicycle
-  2: car
+  0: car
+  1: person
