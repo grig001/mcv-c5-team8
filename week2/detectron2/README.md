@@ -1,14 +1,14 @@
 ## Folder Structure
 
 ```bash
-Week2/detectron/
-│-- scripts/
-│   ├── retrieve_bbox_gt.py  # Extracts bounding boxes and masks
-│   ├── convert_masks.py     # Converts to COCO format
-│   ├── merge.py             # Merges and splits datasets
-│   ├── mask_detection.py    # Runs segmentation detection
-│   ├── fine-tune.py         # Fine-tunes the model and evaluates
-│-- README.md
+detectron2/
+├── README.md
+└── scripts
+    ├── convert_masks.py
+    ├── fine_tune.py
+    ├── mask_detection.py
+    ├── merge.py
+    └── retrieve_bbox_gt.py
 ```
 
 
