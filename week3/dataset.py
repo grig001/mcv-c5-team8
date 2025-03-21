@@ -4,7 +4,7 @@ from torchvision import transforms as v2
 from PIL import Image
 from constants import TEXT_MAX_LEN, CHAR2IDX, CHARS
 
-# Path needs to be added
+# Path needs to be added in getitem
 
 
 class FoodDataset(Dataset):
