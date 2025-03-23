@@ -15,5 +15,5 @@ The slides for week 2 can be found [here](https://docs.google.com/presentation/d
 ## Week 3
 
 The README for week 3 can be found [here](./week3/README.md).  
-The slides for week 3 can be found [here](https://docs.google.com/presentation/d/1etahJ3YuBjsGzXGbmmyZ7ifsmGFF8GMM-0VSV1iVXjw/edit?usp=sharing).
+The slides for week 3 can be found [here](https://docs.google.com/presentation/d/1etahJ3YuBjsGzXGbmmyZ7ifsmGFF8GMM-0VSV1iVXjw/edit?usp=sharing).  
 The current documentation progress can be found here [here](https://overleaf.cvc.uab.cat/read/rnmqpjqzhzqw#dd9996)
