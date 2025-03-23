@@ -66,8 +66,7 @@ class Data(Dataset):
 
         cap_idx = [char2idx[i] for i in final_list]
 
-        return img, torch.tensor(cap_idx, dtype=torch.long)  # ✅ Convert caption to tensor
-
+        return img, torch.tensor(cap_idx, dtype=torch.long)
 
 class Model(nn.Module):
     def __init__(self):
