@@ -26,7 +26,7 @@ partitions = {
 # Save as .npy file
 np.save(output_file, partitions)
 
-print(f"✅ Correct dataset split complete! Partitions saved in {output_file}")
-print(f"📂 Train: {len(train_indices)} indices")
-print(f"📂 Validation: {len(val_indices)} indices")
-print(f"📂 Test: {len(test_indices)} indices")
+print(f"Correct dataset split complete! Partitions saved in {output_file}")
+print(f"Train: {len(train_indices)} indices")
+print(f"Validation: {len(val_indices)} indices")
+print(f"Test: {len(test_indices)} indices")
