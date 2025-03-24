@@ -19,7 +19,7 @@
 │   ├── vgg19
 │   ├── vgg19_frozen_weights
 │   └── vgg19_lstm
-└── utils
+├── utils
 |   ├── create_flickr8k_partitions.py
 |   ├── create_food_partitions.py
 |   └── test_metrics.py
