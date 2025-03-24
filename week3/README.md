@@ -20,9 +20,9 @@
 │   ├── vgg19_frozen_weights
 │   └── vgg19_lstm
 ├── utils
-|   ├── create_flickr8k_partitions.py
-|   ├── create_food_partitions.py
-|   └── test_metrics.py
+│   ├── create_flickr8k_partitions.py
+│   ├── create_food_partitions.py
+│   └── test_metrics.py
 ├── baseline_model.py
 ├── evaluate_fine_tuned_baseline.py
 ├── evaluate_fine_tuned_lstm.py
