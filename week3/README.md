@@ -23,7 +23,7 @@
 │   ├── create_flickr8k_partitions.py
 │   ├── create_food_partitions.py
 │   └── test_metrics.py
-├── baseline_model.py
+├── baseline_model.ipynb
 ├── evaluate_fine_tuned_baseline.py
 ├── evaluate_fine_tuned_lstm.py
 ├── evaluate_fine_tuned_vgg19_frozen_weights.py
@@ -40,8 +40,7 @@
 ├── train_lstm.py
 ├── train_vgg19_frozen_weights.py
 ├── train_vgg19_lstm.py
-├── train_vgg19.py
-└──  week3.ipynb
+└── train_vgg19.py
 ```
 
 
@@ -153,8 +152,8 @@ python utils/test_merics.py
 
 ## Usage (Using the Notebook)
 
-You can try out the code by simply opening the notebook `week3.ipynb`. It contains all the necessary code cells that you need to run. Just execute them in order and follow the comments provided within the notebook. This provides a way to run the training, fine-tuning, and evaluation processes without needing to use the terminal commands directly.
-Be aware of the file paths in the beginning of the notebook - they might not be correct.
+You can try out the code by simply opening the notebook `baseline_model.ipynb`. It contains all the necessary code cells that you need to run. Just execute them in order and follow the comments provided within the notebook. This provides a way to run the training, fine-tuning, and evaluation processes without needing to use the terminal commands directly.
+Be aware of the file paths in the beginning of the notebook - they might not be correct or still like originally downloaded.
 
 ---
 
