@@ -152,8 +152,118 @@ python utils/test_merics.py
 
 ## Usage
 
-Make sure your dataset is properly structured before running any scripts.
 
-You can proceed with your training, evaluation, and other tasks once the environment is set up and dependencies are installed successfully.
+## Usage
 
+### Usage (Using the Notebook)
+
+You can try out the code by simply opening the notebook `week3.ipynb`. It contains all the necessary code cells that you need to run. Just execute them in order and follow the comments provided within the notebook. This provides a way to run the training, fine-tuning, and evaluation processes without needing to use the terminal commands directly.
+Be aware of the file paths in the beginning of the notebook - they might not be correct.
+
+---
+
+## Usage (Using Scripts)
+
+### 1. Creating Partitions
+If you want to create new partitions for your dataset, you can do so by running:
+```bash
+python utils/create_food_partitions.py
+```
+This script generates the necessary partition files which will be stored in the `datasets/Food_Images` folder.
+
+---
+
+### 2. Inference using Pretrained Models
+To evaluate the models with pretrained weights, you can use the following commands. These models are pretrained and can be directly tested for performance:
+
+- **Baseline Model (Simple CNN):**
+```bash
+python evaluate_pretrained_baseline.py
+```
+
+- **LSTM Decoder Model:**
+```bash
+python evaluate_pretrained_lstm.py
+```
+
+- **VGG19 Encoder-Decoder Model:**
+```bash
+python evaluate_pretrained_vgg19.py
+```
+
+- **VGG19 + LSTM Encoder-Decoder Model:**
+```bash
+python evaluate_pretrained_vgg19_lstm.py
+```
+
+---
+
+### 3. Fine-Tuning
+The training scripts allow you to fine-tune the models on your dataset. By default, all training processes are set to **10 epochs**. If you want to change the number of epochs, simply modify the parameter in the corresponding training script.
+
+The fine-tuned models are automatically saved in the directory: `models/{model_name}`.
+
+To fine-tune the models, use the following commands:
+
+- **Baseline Model:**
+```bash
+python train_baseline.py
+```
+
+- **LSTM Decoder Model:**
+```bash
+python train_lstm.py
+```
+
+- **VGG19 Model:**
+```bash
+python train_vgg19.py
+```
+
+- **VGG19 with Frozen Weights:**
+```bash
+python train_vgg19_frozen_weights.py
+```
+
+- **VGG19 + LSTM Model:**
+```bash
+python train_vgg19_lstm.py
+```
+
+---
+
+### 4. Inference using Fine-Tuned Models
+Once fine-tuning is complete, you can evaluate the fine-tuned models by running the following commands:
+
+- **Baseline Model:**
+```bash
+python evaluate_fine_tuned_baseline.py
+```
+
+- **LSTM Decoder Model:**
+```bash
+python evaluate_fine_tuned_lstm.py
+```
+
+- **VGG19 Model:**
+```bash
+python evaluate_fine_tuned_vgg19.py
+```
+
+- **VGG19 with Frozen Weights:**
+```bash
+python evaluate_fine_tuned_vgg19_frozen_weights.py
+```
+
+- **VGG19 + LSTM Model:**
+```bash
+python evaluate_fine_tuned_vgg19_lstm.py
+```
+
+These scripts will automatically access the fine-tuned models from their respective folders under `models/{model_name}` and print the evaluation metrics.
+
+---
+
+### 5. Jobs
+In Addition to that you can also run all the scripts with a sbatch job command. For this you only need to change the job file, which is in the source folder.  
 
