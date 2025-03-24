@@ -176,7 +176,7 @@ This script generates the necessary partition files which will be stored in the 
 ### 2. Inference using Pretrained Models
 To evaluate the models with pretrained weights, you can use the following commands. These models are pretrained and can be directly tested for performance:
 
-- **Baseline Model (Simple CNN):**
+- **Baseline Model:**
 ```bash
 python evaluate_pretrained_baseline.py
 ```
@@ -265,5 +265,5 @@ These scripts will automatically access the fine-tuned models from their respect
 ---
 
 ### 5. Jobs
-In Addition to that you can also run all the scripts with a sbatch job command. For this you only need to change the job file, which is in the source folder.  
+In Addition to that you can also run all the scripts with a `sbatch job` command. For this you only need to change the `job` file, which is in the source folder.  
 
