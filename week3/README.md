@@ -150,12 +150,8 @@ python utils/test_merics.py
   ```
 
 
-## Usage
 
-
-## Usage
-
-### Usage (Using the Notebook)
+## Usage (Using the Notebook)
 
 You can try out the code by simply opening the notebook `week3.ipynb`. It contains all the necessary code cells that you need to run. Just execute them in order and follow the comments provided within the notebook. This provides a way to run the training, fine-tuning, and evaluation processes without needing to use the terminal commands directly.
 Be aware of the file paths in the beginning of the notebook - they might not be correct.
