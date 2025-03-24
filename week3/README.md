@@ -2,7 +2,48 @@
 
 ## Folder Structure
 
-(Leave this section open for now)
+```bash
+├── datasets
+│   ├── Flickr_8k
+│   │   ├── captions.txt
+│   │   ├── flickr8k_partitions.npy
+│   │   └── Images
+│   └── Food_Images
+│       ├── Food_Images
+│       ├── Food_Ingredients_and_Recipe_Dataset_with_Image_Name_Mapping.csv
+│       └── food_partitions.npy
+├── job_outputs
+├── models
+│   ├── baseline
+│   ├── lstm
+│   ├── vgg19
+│   ├── vgg19_frozen_weights
+│   └── vgg19_lstm
+└── utils
+|   ├── create_flickr8k_partitions.py
+|   ├── create_food_partitions.py
+|   └── test_metrics.py
+├── baseline_model.py
+├── evaluate_fine_tuned_baseline.py
+├── evaluate_fine_tuned_lstm.py
+├── evaluate_fine_tuned_vgg19_frozen_weights.py
+├── evaluate_fine_tuned_vgg19_lstm.py
+├── evaluate_fine_tuned_vgg19.py
+├── evaluate_pretrained_baseline.py
+├── evaluate_pretrained_lstm.py
+├── evaluate_pretrained_vgg19_lstm.py
+├── evaluate_pretrained_vgg19.py
+├── job
+├── README.md
+├── results.txt
+├── train_baseline.py
+├── train_lstm.py
+├── train_vgg19_frozen_weights.py
+├── train_vgg19_lstm.py
+├── train_vgg19.py
+└──  week3.ipynb
+```
+
 
 ## Installation Steps
 
