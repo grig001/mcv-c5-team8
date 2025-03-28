@@ -22,7 +22,7 @@ DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 wandb.init(project="C5_W3", entity="C3_MCV_LGVP")
 
 
-base_path = 'D:/mcv-c5-team8-1/week3/datasets/Food_Images/'
+base_path = '../datasets/Food_Images/'
 img_path = f'{base_path}Food_Images/'
 cap_path = f'{base_path}Food_Ingredients_and_Recipe_Dataset_with_Image_Name_Mapping.csv'
 data = pd.read_csv(cap_path)
@@ -135,16 +135,11 @@ tokenizer = model_loader.load_tokenizer()
 feature_extractor = ViTImageProcessor.from_pretrained('nlpconnect/vit-gpt2-image-captioning')
 
 # Data Loaders
-train_dataset = CustomDataset(data, partitions['train'], tokenizer, feature_extractor, augmentation=True)
+train_dataset = CustomDataset(data, partitions['train'], tokenizer, feature_extractor, augmentation=False)
 valid_dataset = CustomDataset(data, partitions['valid'], tokenizer, feature_extractor, augmentation=False)
 
 train_dataloader = DataLoader(train_dataset, batch_size=8, shuffle=True, collate_fn=collate_fn)
 valid_dataloader = DataLoader(valid_dataset, batch_size=8, shuffle=False, collate_fn=collate_fn)
-
-
-# Optimizer & Scheduler
-optimizer = AdamW(vit_model.parameters(), lr=5e-5, weight_decay=1e-5)
-lr_scheduler = get_scheduler("linear", optimizer=optimizer, num_warmup_steps=0, num_training_steps=len(train_dataloader) * 10)
 
 # Metrics
 bleu = evaluate.load('bleu')
@@ -194,14 +189,12 @@ def train(model, train_dataloader, valid_dataloader, optimizer, scheduler, EPOCH
                 **metrics
             })
 
-        # Create the folder if it doesn't exist
         os.makedirs("vit/model_4", exist_ok=True)
 
         # Save model checkpoint
         model.save_pretrained(f"vit/model_4/vit_finetuned_epoch_{epoch+1}")
         tokenizer.save_pretrained(f"vit/model_4/vit_finetuned_epoch_{epoch+1}")
             
-        # Scheduler step (for learning rate adjustment)
         scheduler.step()
         
 
@@ -235,17 +228,9 @@ def evaluate(model, dataloader):
 
 
 # Make sure lr_scheduler is defined earlier as you did before:
+optimizer = AdamW(vit_model.parameters(), lr=5e-5, weight_decay=1e-5)
 lr_scheduler = get_scheduler("linear", optimizer=optimizer, num_warmup_steps=0, num_training_steps=len(train_dataloader) * 5)
 
-# Now call train with all the required arguments:
 train(vit_model, train_dataloader, valid_dataloader, optimizer, lr_scheduler)
 
 wandb.finish()
-
-'''
-model_0: epoch=10, augmantation=False, lr=1e-5, weight_decay=1e-4, max_length=64  
-model_1: epoch=25, augmantation=True, lr=1e-5, max_length=64
-model_2: epoch=20, augmantation=False, lr=1e-4, max_length=64
-model_3: epoch=5, augmantation=False, lr=5e-4, weight_decay=1e-4, max_length=64
-model_4: epoch=5, augmantation=False, lr=5e-5, weight_decay=1e-5, max_length=128
-'''
