@@ -26,8 +26,8 @@ lora_config = LoraConfig(r=16, lora_alpha=32, lora_dropout=0.1)
 
 wandb.init(project="C5_W3", entity="C3_MCV_LGVP")
 
-# base_path = 'D:/mcv-c5-team8-1/week3/datasets/Food_Images/'
-base_path = '../datasets/Food_Images/'
+base_path = 'D:/mcv-c5-team8-1/week3/datasets/Food_Images/'
+# base_path = '../datasets/Food_Images/'
 
 TEXT_MAX_LEN = 197
 
@@ -252,25 +252,66 @@ def train_one_epoch(model, dataloader, optimizer, device):
 
     return total_loss / len(dataloader)
 
-
-def evaluate(model, dataloader):
-    model.eval()
-    total_loss = 0
-    all_predictions, all_references = [], []
+def greedy_decode(model, images, tokenizer, max_length=197, temperature=1.0):
+    # Extract the features from the vision encoder (ViT)
+    # vision_features = model.vision_encoder(images)  # This will give you features from ViT
     
+    # Start with a token (usually <s> token for start, assuming token ID = 1)
+    input_ids = torch.tensor([[1]]).to(images.device)  # Use the starting token
+    
+    generated_ids = input_ids  # Initialize generated_ids with the starting token
+
+    eos_token_id = tokenizer.eos_token_id  # Get the EOS token ID from the tokenizer
+
+    for _ in range(max_length):
+
+        outputs = model.llama.base_model.model(generated_ids)
+        logits = outputs.logits[:, -1, :]  # Get logits for the last token in the sequence
+        logits = logits / temperature  # Apply temperature scaling for diversity
+
+        # Greedily pick the next token
+        predicted_id = logits.argmax(dim=-1, keepdim=True)
+
+        # Append the predicted token to the generated sequence
+        generated_ids = torch.cat((generated_ids, predicted_id), dim=-1)
+
+        # Check if EOS token is predicted and stop generation if EOS is reached
+        if predicted_id.item() == eos_token_id:  # Using .item() to get the scalar value
+            break
+
+    generated_ids = generated_ids.squeeze().cpu().numpy().astype(int)  # Ensure it's a list of IDs
+
+    return generated_ids
+
+
+def model_evaluation(model, dataloader):
+    model.eval()
+    total_loss = 0.0
+    all_predictions = []
+    all_references = []
+
     with torch.no_grad():
-        for imgs, labels, captions in tqdm(dataloader, desc="Validation"):
-            imgs, labels = imgs.to(DEVICE), labels.to(DEVICE)
-            outputs = model(pixel_values=imgs, labels=labels)
+        for batch in tqdm(dataloader, desc="Decoder Evaluation"):
+            if batch is None:
+                continue
+
+            images, labels = batch  # captions = list of reference texts
+            images, labels = images.to(device), labels.to(device)
+
+            # Forward pass to compute loss
+            outputs = model(images, labels)
             loss = outputs.loss
             total_loss += loss.item()
-            
-            generated_ids = model.generate(imgs)
+
+            generated_ids = greedy_decode(model, images, tokenizer, max_length=197, temperature=1.0)
+
             preds = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)
-            
+            refs = [[ref] for ref in labels]  # wrap each reference in a list for BLEU
+
             all_predictions.extend(preds)
-            all_references.extend([[ref] for ref in captions])
-    
+            all_references.extend(refs)
+
+    # Compute metrics
     metrics = {
         "Validation Loss": total_loss / len(dataloader),
         "BLEU-1": bleu.compute(predictions=all_predictions, references=all_references, max_order=1)["bleu"],
@@ -278,10 +319,12 @@ def evaluate(model, dataloader):
         "ROUGE-L": rouge.compute(predictions=all_predictions, references=all_references)["rougeL"],
         "METEOR": meteor.compute(predictions=all_predictions, references=all_references)["meteor"]
     }
+
     wandb.log(metrics)
     return metrics
 
-def train(model, train_dataloader, valid_dataloader, optimizer, scheduler, EPOCHS = 10):
+
+def train(model, train_dataloader, valid_dataloader, optimizer, scheduler, EPOCHS = 4):
     
     for epoch in range(EPOCHS):
         # Train for one epoch
@@ -290,7 +333,7 @@ def train(model, train_dataloader, valid_dataloader, optimizer, scheduler, EPOCH
         avg_train_loss = train_one_epoch(model, train_dataloader, optimizer, device)
 
         # Evaluation & Logging
-        metrics = evaluate(model, valid_dataloader)
+        metrics = model_evaluation(model, valid_dataloader)
 
         # Log metrics to WandB
         wandb.log({
@@ -311,7 +354,7 @@ def train(model, train_dataloader, valid_dataloader, optimizer, scheduler, EPOCH
 
 
 optimizer = torch.optim.AdamW(model.parameters(), lr=1e-4)
-lr_scheduler = get_scheduler("linear", optimizer=optimizer, num_warmup_steps=0, num_training_steps=len(train_dataloader) * 10)
+lr_scheduler = get_scheduler("linear", optimizer=optimizer, num_warmup_steps=0, num_training_steps=len(train_dataloader) * 4)
 
 train(model, train_dataloader, valid_dataloader, optimizer, lr_scheduler)
 
