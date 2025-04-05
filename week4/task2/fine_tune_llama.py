@@ -21,13 +21,15 @@ import wandb
 
 DEVICE = torch.device("cuda")
 
-lora_config = LoraConfig(r=8, lora_alpha=32, lora_dropout=0.1)
+lora_config = LoraConfig(r=16, lora_alpha=32, lora_dropout=0.1)
 
 
 wandb.init(project="C5_W3", entity="C3_MCV_LGVP")
 
 # base_path = 'D:/mcv-c5-team8-1/week3/datasets/Food_Images/'
 base_path = '../datasets/Food_Images/'
+
+TEXT_MAX_LEN = 197
 
 img_path = f'{base_path}Food_Images/'
 cap_path = f'{base_path}Food_Ingredients_and_Recipe_Dataset_with_Image_Name_Mapping.csv'
@@ -105,7 +107,7 @@ class CustomDataset(Dataset):
                 caption,
                 return_tensors="pt",
                 padding="max_length",
-                max_length=32,
+                max_length=TEXT_MAX_LEN,
                 truncation=True
             )
 
@@ -143,23 +145,40 @@ class VisionToLlamaModel(nn.Module):
             vision_outputs = self.vision_encoder(pixel_values=images)
             image_features = vision_outputs.last_hidden_state  # [B, N, D_vit]
 
+        # print("image features dim:", image_features.shape)
         projected = self.projection(image_features)  # [B, N, D_llama]
 
         # Forward through LLaMA using embeddings (no input_ids)
         projected = projected.to(dtype=self.llama.dtype)
+        # print(projected.shape)
+        # print(labels.shape)
+        # embedding_size = self.llama.get_input_embeddings().embedding_dim
+        # print(projected.shape)
+        
+        # expected_dim = self.llama.get_input_embeddings().embedding_dim
+        # print("Expected embedding dim:", expected_dim)
+
+        # Inspect actual projected shape
+        # print("Projected shape:", projected.shape)
+
+        # Sanity check
+        # print(projected.shape[-1] == expected_dim)
+
         outputs = self.llama(inputs_embeds=projected, labels=labels)
+        
+        # print(outputs)
 
         return outputs
 
 # tokenizer = LlamaTokenizer.from_pretrained("meta-llama/Llama-3.2-3B")
-tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-3.2-3B")
+tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-3.2-1B")
 if tokenizer.pad_token is None:
     tokenizer.pad_token = tokenizer.eos_token
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = VisionToLlamaModel(
     vision_model_name="D:/mcv-c5-team8-1/vit/model_0/vit_finetuned_epoch_10",  # or your own pretrained ViT
-    llama_model_name="meta-llama/Llama-3.2-3B"              # or the model you downloaded
+    llama_model_name="meta-llama/Llama-3.2-1B"              # or the model you downloaded
 ).to(device)
 
 
@@ -218,7 +237,11 @@ def train_one_epoch(model, dataloader, optimizer, device):
         images, labels = batch
         images, labels = images.to(device), labels.to(device)
 
+        # print("image shape: ", images.shape)
+        # print("labels shape: ", labels.shape)
+
         outputs = model(images, labels)
+
         loss = outputs.loss
 
         loss.backward()
