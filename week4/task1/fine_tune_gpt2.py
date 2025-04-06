@@ -10,8 +10,8 @@ from tqdm import tqdm
 import os
 import evaluate
 
-# Print statement for job identification
-print("filename: fine_tune_vit_gpt2.py")
+# Print statement for job outpud identification
+print("filename: fine_tune_gpt2.py")
 
 # Device setup
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -86,9 +86,24 @@ def collate_fn(batch):
 model = VisionEncoderDecoderModel.from_pretrained('nlpconnect/vit-gpt2-image-captioning')
 feature_extractor = ViTImageProcessor.from_pretrained('nlpconnect/vit-gpt2-image-captioning')
 tokenizer = AutoTokenizer.from_pretrained('nlpconnect/vit-gpt2-image-captioning')
+
+# Freeze the ViT encoder (vision model)
+for param in model.encoder.parameters():
+    param.requires_grad = False  # ViT will not be updated
+
+# Move to device
 model.config.pad_token_id = tokenizer.pad_token_id
 model.to(DEVICE)
 
+# Check trainable parameters
+trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
+total_params = sum(p.numel() for p in model.parameters())
+vit_params = sum(p.numel() for p in model.encoder.parameters())
+gpt2_params = sum(p.numel() for p in model.decoder.parameters())
+
+print(f"ViT Parameters: {vit_params / 1e6:.2f}M")
+print(f"GPT-2 Parameters: {gpt2_params / 1e6:.2f}M")
+print(f"\nTrainable Parameters: {trainable_params}/{total_params} ({100 * trainable_params / total_params:.2f}%)")
 
 # Training Function
 def train_one_epoch(model, dataloader, optimizer, step_log=100):
@@ -152,7 +167,7 @@ train_dataloader = DataLoader(train_dataset, batch_size=12, shuffle=True, collat
 valid_dataloader = DataLoader(valid_dataset, batch_size=12, shuffle=False, collate_fn=collate_fn)
 
 # Optimizer
-optimizer = AdamW(model.parameters(), lr=5.33e-06)
+optimizer = AdamW(model.parameters(), lr=1.897e-06)
 
 # Training Loop
 EPOCHS = 15
@@ -169,9 +184,9 @@ for epoch in range(EPOCHS):
     })
 
     # Save model checkpoint
-    if (epoch + 1) in [10, 20, 30, 40, 50]:
-        model.save_pretrained(f"model_output/vit_gpt2_finetuned_optuna_epoch_{epoch+1}")
-        tokenizer.save_pretrained(f"model_output/vit_gpt2_finetuned_optuna_epoch_{epoch+1}")
+    if (epoch + 1) in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 30, 40, 50]:
+        model.save_pretrained(f"model_output/gpt2_finetuned_optuna_epoch_{epoch+1}")
+        tokenizer.save_pretrained(f"model_output/gpt2_finetuned_optuna_epoch_{epoch+1}")
 
 # Finish WandB logging
 wandb.finish()

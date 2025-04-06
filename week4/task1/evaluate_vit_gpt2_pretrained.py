@@ -9,6 +9,9 @@ from torch.utils.data import DataLoader, Dataset
 from transformers import VisionEncoderDecoderModel, ViTImageProcessor, AutoTokenizer
 from utils.metrics import compute_metrics  # Importing your metrics function
 
+# print statement to identify job outputs
+
+print("filename: evaluate_vit_gpt2_pretrained.py")
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
