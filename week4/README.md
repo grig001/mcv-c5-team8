@@ -245,7 +245,7 @@ cp -r ../task1/model_output/vit_finetuned_epoch_10 ./models/
 
 The training scripts allow you to fine-tune the models on your dataset. By default, all training processes are set to **10 epochs**. If you want to change the number of epochs, simply modify the parameter in the corresponding training script.
 
-The fine-tuned models are automatically saved in the directory: `model_output/{model_name}`.
+The fine-tuned models are automatically saved in the directory: `llama/model_1_{1B, 3B}/{model_name}`.
 
 To fine-tune the models, use the following commands:
 
