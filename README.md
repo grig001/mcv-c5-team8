@@ -17,3 +17,9 @@ The slides for week 2 can be found [here](https://docs.google.com/presentation/d
 The README for week 3 can be found [here](./week3/README.md).  
 The slides for week 3 can be found [here](https://github.com/grig001/mcv-c5-team8/blob/main/week3/group8_task3.pdf).  
 The current documentation progress can be found here [here](https://overleaf.cvc.uab.cat/read/rnmqpjqzhzqw#dd9996)
+
+## Week 4
+
+The README for week 4 can be found [here](./week4/README.md).  
+The slides for week 4 can be found [here](https://github.com/grig001/mcv-c5-team8/blob/main/week3/group8_task3.pdf).  TO DO
+The current documentation progress can be found here [here](https://overleaf.cvc.uab.cat/read/rnmqpjqzhzqw#dd9996) TO DO
