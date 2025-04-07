@@ -22,4 +22,4 @@ The current documentation progress can be found here [here](https://overleaf.cvc
 
 The README for week 4 can be found [here](./week4/README.md).  
 The slides for week 4 can be found [here](https://github.com/grig001/mcv-c5-team8/blob/main/week3/group8_task3.pdf).  TO DO  
-The current documentation progress can be found here [here](https://overleaf.cvc.uab.cat/read/rnmqpjqzhzqw#dd9996) TO DO
+The current documentation progress can be found here [here](https://overleaf.cvc.uab.cat/read/rnmqpjqzhzqw#dd9996)
