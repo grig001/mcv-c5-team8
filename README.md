@@ -27,4 +27,4 @@ The current documentation progress can be found here [here](https://overleaf.cvc
 ## Week 5
 
 The README for week 5 can be found [here](./week5/README.md).  
-The slides for week 5 can be found [here](). TO DO
+The slides for week 5 can be found [here](./week5/group8_C5_week5_diffusion1.pdf).
