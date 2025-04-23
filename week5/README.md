@@ -1,5 +1,9 @@
 # Week 5 - Diffusion models
 
+## Slides
+
+The slides for week 5 can be found [here](./group8_C5_week5_diffusion1.pdf).
+
 ## Folder Structure
 
 ```bash
