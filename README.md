@@ -32,4 +32,4 @@ The slides for week 5 can be found [here](./week5/group8_C5_week5_diffusion1.pdf
 ## Final Presentation
 
 The final report can be found [here](https://github.com/grig001/mcv-c5-team8/blob/main/Image_Captioning_Group8.pdf).  
-The slides for the final presentation can be found [here](https://github.com/grig001/mcv-c5-team8/blob/main/group8_final_C5_01VH01.pdf). 
+The slides for the final presentation can be found [here](https://github.com/grig001/mcv-c5-team8/blob/main/group8_final_C5.pdf). 
